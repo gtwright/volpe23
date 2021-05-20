@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import GlobalNav from "./GlobalNav";
 import MainNav from "./MainNav";
 
 export default function Header() {
@@ -9,7 +8,6 @@ export default function Header() {
 
   return (
     <AppBar color="default" elevation={0}>
-      {/* <GlobalNav /> */}
       <MainNav />
     </AppBar>
   );

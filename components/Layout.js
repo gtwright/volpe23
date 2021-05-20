@@ -1,12 +1,12 @@
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Container } from "@material-ui/core";
-import Header from "./Header";
+// import Header from "./Header";
 
 export default function App({ children }) {
   return (
     <>
       <CssBaseline />
-      <Header />
+      {/* <Header /> */}
       <main style={{ paddingTop: 90 }}>
         <Container maxWidth="lg">{children}</Container>
         <style jsx global>{`
@@ -67,7 +67,7 @@ export default function App({ children }) {
           }
 
           body {
-            background: url(/bso_background.jpg) no-repeat center center fixed;
+            background: url(/site-background.svg) no-repeat center center fixed;
             background-size: cover;
             font-family: "BSO Regular";
           }

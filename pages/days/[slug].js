@@ -7,52 +7,43 @@ import { initializeApollo } from "../../lib/apolloClient";
 import ReactPlayer from "react-player";
 import moment from "moment";
 
-const SESSION_QUERY = gql`
+const DAY_QUERY = gql`
   query homePage($slug: String) {
-    sessionCollection(where: { slug: $slug }, limit: 1) {
+    dayCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
-        description
-        videoEmbed
+        description {
+          json
+        }
         releaseDatetime
       }
     }
   }
 `;
 
-const SessionPage = ({ session, slug }) => {
-  const { loading, error, data } = useQuery(SESSION_QUERY, {
-    slug,
+const SessionPage = ({ day, slug }) => {
+  const { loading, error, data } = useQuery(DAY_QUERY, {
+    slug
   });
   // session = data ? data.sessionCollection.items[0] : session;
   var today = moment();
-  var release = moment(session?.releaseDatetime) || null;
+  var release = moment(day?.releaseDatetime) || null;
   const released = release && today >= release;
+  console.log(day);
   return (
     <Layout>
       <Paper style={{ padding: 30 }}>
-        {session ? (
+        {day ? (
           <>
-            <h1>{session.title}</h1>
-            {released && (
-              <ReactPlayer
-                url={session.videoEmbed}
-                width="100%"
-                controls={true}
-              />
-            )}
-
+            <h1>{day.title}</h1>
             <div style={{ marginTop: 30, marginBottom: 30 }}>
-              {session.description}
+              {documentToReactComponents(day.description)}
             </div>
             {released ? (
               <>Released on {release.format("L")}</>
             ) : (
               <>Releasing on {release.format("L")}</>
             )}
-            {/* {session?.body?.json && (
-              <div>{documentToReactComponents(session.body.json)}</div>
-            )} */}
           </>
         ) : loading ? (
           <div>Loading...</div>
@@ -68,26 +59,26 @@ export async function getStaticProps({ params, preview = false }) {
   const apolloClient = initializeApollo();
   const { slug } = params;
   const client = await apolloClient.query({
-    query: SESSION_QUERY,
-    variables: { slug },
+    query: DAY_QUERY,
+    variables: { slug }
   });
-  const session = client.data.sessionCollection.items[0] || null;
+  const day = client.data.dayCollection.items[0] || null;
   // console.log("session", slug, session);
 
   return {
     props: {
       // initialApolloState: apolloClient.cache.extract(),
-      session,
-      slug,
+      day,
+      slug
     },
-    revalidate: 1,
+    revalidate: 1
   };
 }
 
 export async function getStaticPaths() {
   return {
     paths: [],
-    fallback: true, // See the "fallback" section below
+    fallback: true // See the "fallback" section below
   };
 }
 

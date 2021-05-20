@@ -10,7 +10,7 @@ import moment from "moment";
 import Link from "next/link";
 const HOMEPAGE_QUERY = gql`
   query homePage {
-    pageCollection(where: { slug: "home" }, limit: 10) {
+    pageCollection(where: { slug: "/" }, limit: 10) {
       total
       items {
         title
@@ -19,10 +19,13 @@ const HOMEPAGE_QUERY = gql`
         }
       }
     }
-    sessionCollection(order: title_ASC) {
+    dayCollection(order: title_ASC) {
       items {
         title
-        description
+        image
+        description {
+          json
+        }
         slug
         releaseDatetime
       }
@@ -36,29 +39,21 @@ const IndexPage = () => {
   );
 
   const page = data ? data?.pageCollection?.items[0] : null;
-  const sessions = data ? data?.sessionCollection?.items : [];
+  const days = data ? data?.dayCollection?.items : [];
   var today = moment();
-
   return (
     <Layout>
       {page && (
         <>
           <Paper style={{ padding: 30, marginBottom: 20 }}>
-            <h1>Us: A Celebration of Community</h1>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=sLioN5dtpK0?rel=0"
-                width="100%"
-                controls={true}
-              />
-            </div>
+            <h1>In Celebration of Mark Volpe’s 23 Years of Leadership</h1>
             <div>{documentToReactComponents(page.body.json)}</div>
           </Paper>
           <Grid container spacing={3}>
-            {sessions.map((session) => {
-              var release = moment(session.releaseDatetime);
+            {days.map((day) => {
+              var release = moment(day.releaseDatetime);
               return (
-                <Grid item xs={12} md={6} key={session.slug}>
+                <Grid item xs={12} md={6} key={day.slug}>
                   <Paper
                     style={{
                       padding: 30,
@@ -70,13 +65,13 @@ const IndexPage = () => {
                     }}
                   >
                     <div>
-                      <h2>{session.title}</h2>
-                      <p>{session.description}</p>
+                      {day.image && <img src={day.image.url} alt={day.title} />}
+                      <h2>{day.title}</h2>
                     </div>
 
                     {today > release ? (
-                      <Link href={`/sessions/${session.slug}`}>
-                        <Button variant="contained">Watch</Button>
+                      <Link href={`/days/${day.slug}`}>
+                        <Button variant="contained">More</Button>
                       </Link>
                     ) : (
                       <>Releasing on {release.format("L")}</>
