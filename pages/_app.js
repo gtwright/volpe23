@@ -30,7 +30,7 @@ export default function App(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>STL BSO GLD Sessions</title>
+        <title>In Celebration of Mark Volpe’s 23 Years of Leadership</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
