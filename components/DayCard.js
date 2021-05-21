@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const DayCard = ({ day, today, release }) => {
   const released = today > release;
-
+  // console.log("day image", day.image);
   return (
     <Grid
       item
@@ -24,21 +24,23 @@ const DayCard = ({ day, today, release }) => {
         }}
       >
         <h2>{day.title}</h2>
+
         {day.image[0].url && (
-          // <img src={day.image[0].url} alt={day.title} />
           <Image
             public-id={day.image[0].public_id}
-            fetchFormat="auto"
             alt="MV"
-            height="200"
-            width="300"
-            crop="fit"
             secure="true"
             loading="lazy"
-            quality="auto"
           >
+            <Transformation
+              height="200"
+              width="300"
+              crop="fit"
+              fetchFormat="auto"
+              quality="auto"
+            />
+            {/* <Placeholder type="pixelate" /> */}
             {!released && <Transformation effect="pixelate" />}
-            <Placeholder type="pixelate" />
           </Image>
         )}
 
