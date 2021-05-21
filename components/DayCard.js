@@ -3,6 +3,8 @@ import { Grid, Paper, Button } from "@material-ui/core";
 import Link from "next/link";
 
 const DayCard = ({ day, today, release }) => {
+  const released = today > release;
+
   return (
     <Grid
       item
@@ -30,16 +32,17 @@ const DayCard = ({ day, today, release }) => {
           }}
         > */}
         <h2>{day.title}</h2>
-
+        {released && <h2>Released!</h2>}
         {day.image[0].url && (
           // <img src={day.image[0].url} alt={day.title} />
           <Image
             public-id={day.image[0].public_id}
+            fetchFormat="auto"
             alt="MV"
             height={200}
             secure="true"
           >
-            <Placeholder type="pixelate" />
+            {!released && <Placeholder type="pixelate" />}
           </Image>
         )}
         {/* </div> */}

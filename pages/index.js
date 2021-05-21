@@ -31,7 +31,7 @@ const HOMEPAGE_QUERY = gql`
         }
       }
     }
-    dayCollection(order: title_ASC) {
+    dayCollection(order: releaseDatetime_ASC) {
       items {
         title
         image
