@@ -1,4 +1,4 @@
-import { Image, Placeholder } from "cloudinary-react";
+import { Image, Placeholder, Transformation } from "cloudinary-react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import Link from "next/link";
 
@@ -39,10 +39,15 @@ const DayCard = ({ day, today, release }) => {
             public-id={day.image[0].public_id}
             fetchFormat="auto"
             alt="MV"
-            height={200}
+            height="200"
+            width="300"
+            crop="fit"
             secure="true"
+            loading="lazy"
+            quality="auto"
           >
-            {!released && <Placeholder type="pixelate" />}
+            {!released && <Transformation effect="pixelate" />}
+            <Placeholder type="pixelate" />
           </Image>
         )}
         {/* </div> */}
