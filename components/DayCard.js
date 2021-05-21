@@ -23,16 +23,7 @@ const DayCard = ({ day, today, release }) => {
           flexDirection: "column"
         }}
       >
-        {/* <div
-          style={{
-            display: "flex",
-            flexDirection: "column"
-            // justifyContent: "center",
-            // width: "100%"
-          }}
-        > */}
         <h2>{day.title}</h2>
-        {released && <h2>Released!</h2>}
         {day.image[0].url && (
           // <img src={day.image[0].url} alt={day.title} />
           <Image
@@ -50,16 +41,14 @@ const DayCard = ({ day, today, release }) => {
             <Placeholder type="pixelate" />
           </Image>
         )}
-        {/* </div> */}
 
-        {/* {today > release ? (
+        {released ? (
           <Link href={`/days/${day.slug}`}>
-            <Button variant="contained">View Details</Button>
+            <Button style={{ marginTop: 20 }}>View Details</Button>
           </Link>
         ) : (
           <>Releasing on {release.format("L")}</>
-        )} */}
-        <>Releasing on {release.format("L")}</>
+        )}
       </Paper>
     </Grid>
   );
