@@ -4,6 +4,7 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../lib/theme";
+import { CloudinaryContext } from "cloudinary-react";
 
 // export default function App({ Component, pageProps }) {
 //   const apolloClient = useApollo(pageProps.initialApolloState);
@@ -39,9 +40,11 @@ export default function App(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
-        </ApolloProvider>
+        <CloudinaryContext cloudName="bostonsymphony">
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </CloudinaryContext>
       </ThemeProvider>
     </React.Fragment>
   );
