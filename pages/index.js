@@ -14,7 +14,7 @@ import {
   CardContent,
   Typography,
   CardActionArea,
-  CardMedia
+  CardMedia,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -46,13 +46,13 @@ const HOMEPAGE_QUERY = gql`
 `;
 
 const IndexPage = () => {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    HOMEPAGE_QUERY
-  );
+  const { loading, error, data, fetchMore, networkStatus } =
+    useQuery(HOMEPAGE_QUERY);
 
   const page = data ? data?.pageCollection?.items[0] : null;
   const days = data ? data?.dayCollection?.items : [];
   var today = moment();
+  console.log(days);
   return (
     <Layout>
       {page && (
@@ -84,14 +84,14 @@ export async function getStaticProps() {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
-    query: HOMEPAGE_QUERY
+    query: HOMEPAGE_QUERY,
   });
 
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract()
+      initialApolloState: apolloClient.cache.extract(),
     },
-    revalidate: 1
+    revalidate: 1,
   };
 }
 

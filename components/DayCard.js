@@ -2,6 +2,30 @@ import { Image, Placeholder, Transformation } from "cloudinary-react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import Link from "next/link";
 
+const CardImage = ({ day, released }) => (
+  <Image
+    publicId={day.image[0].public_id}
+    alt="MV"
+    fetchFormat="auto"
+    quality="auto"
+    secure="true"
+    // loading="lazy"
+    height="200"
+    width="300"
+    crop="fit"
+  >
+    {/* <Transformation
+    height="200"
+    width="300"
+    crop="fit"
+    fetchFormat="auto"
+    quality="auto"
+  /> */}
+    {/* <Placeholder type="pixelate" /> */}
+    {!released && <Transformation effect="pixelate" />}
+  </Image>
+);
+
 const DayCard = ({ day, today, release }) => {
   const released = today > release;
   // console.log("day image", day.image);
@@ -18,39 +42,25 @@ const DayCard = ({ day, today, release }) => {
           padding: 30,
           height: "100%",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
         }}
       >
         <h2>{day.title}</h2>
+        <>
+          {released ? (
+            <Link href={`/days/${day.slug}`}>
+              <a>
+                <CardImage day={day} released={released} />
+              </a>
+            </Link>
+          ) : (
+            <CardImage day={day} released={released} />
+          )}
 
-        {day.image[0].url && (
-          <Image
-            public-id={day.image[0].public_id}
-            alt="MV"
-            secure="true"
-            loading="lazy"
-          >
-            <Transformation
-              height="200"
-              width="300"
-              crop="fit"
-              fetchFormat="auto"
-              quality="auto"
-            />
-            {/* <Placeholder type="pixelate" /> */}
-            {!released && <Transformation effect="pixelate" />}
-          </Image>
-        )}
-
-        {released ? (
-          <Link href={`/days/${day.slug}`}>
-            <Button style={{ marginTop: 20 }}>View Details</Button>
-          </Link>
-        ) : (
-          <>Releasing on {release.format("L")}</>
-        )}
+          {!released && <>Releasing on {release.format("L")}</>}
+        </>
       </Paper>
     </Grid>
   );
