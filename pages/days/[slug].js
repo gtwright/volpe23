@@ -4,15 +4,16 @@ import { Paper } from "@material-ui/core";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { useRouter } from "next/router";
 import { initializeApollo } from "../../lib/apolloClient";
-import ReactPlayer from "react-player";
 import moment from "moment";
 import Link from "next/link";
+import { Image, Placeholder, Transformation } from "cloudinary-react";
 
 const DAY_QUERY = gql`
   query homePage($slug: String) {
     dayCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
+        image
         description {
           json
         }
@@ -38,21 +39,32 @@ const DayPage = ({ day, slug }) => {
   return (
     <Layout>
       <Paper style={{ padding: 30 }}>
-        {day ? (
-          <>
-            <div>
-              <Link href="/">&larr; Back to Home</Link>
+        <div>
+          <Link href="/">&larr; Back to Home</Link>
+        </div>
+        {!released ? (
+          <div>Releasing on {release.format("L")}</div>
+        ) : day ? (
+          <div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Image
+                publicId={day.image?.[0].public_id}
+                alt="MV"
+                fetchFormat="auto"
+                quality="auto"
+                secure="true"
+                // loading="lazy"
+                height="800"
+                width="1200"
+                crop="fit"
+              ></Image>
             </div>
             <h1>{day.title}</h1>
-            <div style={{ marginTop: 30, marginBottom: 30 }}>
-              {/* {documentToReactComponents(day.description)} */}
+            <div style={{ marginBottom: 30 }}>
+              {day.description.json &&
+                documentToReactComponents(day.description.json)}
             </div>
-            {released ? (
-              <>Released on {release.format("L")}</>
-            ) : (
-              <>Releasing on {release.format("L")}</>
-            )}
-          </>
+          </div>
         ) : (
           <div>Page Not Found</div>
         )}
@@ -83,7 +95,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const paths = [...Array(10).keys()].map((x) => ({
+  const paths = [...Array(23).keys()].map((x) => ({
     params: { slug: `${x + 1}` },
   }));
   return {
