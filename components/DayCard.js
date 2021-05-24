@@ -10,9 +10,10 @@ const CardImage = ({ day, released }) => (
     quality="auto"
     secure="true"
     // loading="lazy"
-    height="200"
-    width="300"
+    height="600"
+    width="850"
     crop="fit"
+    style={{ maxWidth: "100%" }}
   >
     {/* <Transformation
     height="200"
@@ -51,7 +52,7 @@ const DayCard = ({ day, today, release }) => {
         <>
           {released ? (
             <Link href={`/days/${day.slug}`}>
-              <a>
+              <a style={{ width: "100%" }}>
                 <CardImage day={day} released={released} />
               </a>
             </Link>
