@@ -39,7 +39,7 @@ const DayPage = ({ day, slug }) => {
   return (
     <Layout>
       <Paper style={{ padding: 30 }}>
-        <div>
+        <div style={{ marginBottom: 30 }}>
           <Link href="/">&larr; Back to Home</Link>
         </div>
         {!released ? (
@@ -57,6 +57,7 @@ const DayPage = ({ day, slug }) => {
                 height="800"
                 width="1200"
                 crop="fit"
+                style={{ maxWidth: "100%" }}
               ></Image>
             </div>
             <h1>{day.title}</h1>
