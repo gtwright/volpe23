@@ -32,8 +32,8 @@ const HOMEPAGE_QUERY = gql`
       }
     }
     dayCollection(
-      order: releaseDatetime_ASC
-      where: { releaseDatetime_lte: "2021-06-03T00:00:00.000-04:00" }
+      order: releaseDatetime_DESC
+      where: { releaseDatetime_lte: "2021-05-30T00:00:00.000-04:00" }
     ) {
       items {
         title
