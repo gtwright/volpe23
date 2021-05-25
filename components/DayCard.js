@@ -1,6 +1,7 @@
 import { Image, Placeholder, Transformation } from "cloudinary-react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import Link from "next/link";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 const CardImage = ({ day, released }) => (
   <Image
@@ -15,15 +16,7 @@ const CardImage = ({ day, released }) => (
     crop="fit"
     style={{ maxWidth: "100%" }}
   >
-    {/* <Transformation
-    height="200"
-    width="300"
-    crop="fit"
-    fetchFormat="auto"
-    quality="auto"
-  /> */}
-    {/* <Placeholder type="pixelate" /> */}
-    {!released && <Transformation effect="pixelate" />}
+    {/* {!released && <Transformation effect="pixelate" />} */}
   </Image>
 );
 
@@ -31,39 +24,44 @@ const DayCard = ({ day, today, release }) => {
   const released = today > release;
   // console.log("day image", day.image);
   return (
-    <Grid
-      item
-      xs={12}
-      md={4}
+    // <Grid
+    //   item
+    //   xs={12}
+    //   md={8}
 
-      // style={{ height: "100%" }}
+    //   // style={{ height: "100%" }}
+    // >
+    <Paper
+      key={day.slug}
+      style={{
+        padding: 30,
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        display: "flex",
+        flexDirection: "column",
+        margin: 25,
+      }}
     >
-      <Paper
-        style={{
-          padding: 30,
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <h2>{day.title}</h2>
-        <>
-          {released ? (
-            <Link href={`/days/${day.slug}`}>
-              <a style={{ width: "100%" }}>
-                <CardImage day={day} released={released} />
-              </a>
-            </Link>
-          ) : (
-            <CardImage day={day} released={released} />
-          )}
+      <h3>{day.season}</h3>
+      <h2>{day.title}</h2>
+      <>
+        <CardImage day={day} released={released} />
+        {/* {released ? (
+          // <Link href={`/days/${day.slug}`}>
+            <a style={{ width: "100%" }}>
+              <CardImage day={day} released={released} />
+            </a>
+          // </Link>
+        ) : (
+          <CardImage day={day} released={released} />
+        )} */}
+        <div>{documentToReactComponents(day.description.json)}</div>
 
-          {!released && <>Releasing on {release.format("L")}</>}
-        </>
-      </Paper>
-    </Grid>
+        {/* {!released && <>Releasing on {release.format("L")}</>} */}
+      </>
+    </Paper>
+    // </Grid>
   );
 };
 

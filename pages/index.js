@@ -31,15 +31,22 @@ const HOMEPAGE_QUERY = gql`
         }
       }
     }
-    dayCollection(order: releaseDatetime_ASC) {
+    dayCollection(
+      order: releaseDatetime_ASC
+      where: { releaseDatetime_lte: "2021-06-03T00:00:00.000-04:00" }
+    ) {
       items {
         title
-        image
         description {
           json
         }
-        slug
+        season
+        image
         releaseDatetime
+        slug
+        sys {
+          id
+        }
       }
     }
   }
@@ -52,7 +59,6 @@ const IndexPage = () => {
   const page = data ? data?.pageCollection?.items[0] : null;
   const days = data ? data?.dayCollection?.items : [];
   var today = moment();
-  console.log(days);
   return (
     <Layout>
       {page && (
@@ -61,7 +67,7 @@ const IndexPage = () => {
             <h1>In Celebration of Mark Volpe’s 23 Years of Leadership</h1>
             <div>{documentToReactComponents(page.body.json)}</div>
           </Paper>
-          <Grid container spacing={3}>
+          <Container maxWidth="md">
             {days.map((day) => {
               var release = moment(day.releaseDatetime);
               return (
@@ -73,7 +79,7 @@ const IndexPage = () => {
                 />
               );
             })}
-          </Grid>
+          </Container>
         </>
       )}
     </Layout>
