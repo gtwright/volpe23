@@ -1,67 +1,45 @@
-import { Image, Placeholder, Transformation } from "cloudinary-react";
-import { Grid, Paper, Button } from "@material-ui/core";
-import Link from "next/link";
+import { Image } from "cloudinary-react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Paper } from "@material-ui/core";
 
-const CardImage = ({ day, released }) => (
+const CardImage = ({ day }) => (
   <Image
     publicId={day.image[0].public_id}
     alt="MV"
     fetchFormat="auto"
     quality="auto"
     secure="true"
-    // loading="lazy"
     height="600"
     width="850"
     crop="fit"
     style={{ maxWidth: "100%" }}
-  >
-    {/* {!released && <Transformation effect="pixelate" />} */}
-  </Image>
+  ></Image>
 );
 
-const DayCard = ({ day, today, release }) => {
-  const released = today > release;
-  // console.log("day image", day.image);
+const DayCard = ({ day, index }) => {
   return (
-    // <Grid
-    //   item
-    //   xs={12}
-    //   md={8}
-
-    //   // style={{ height: "100%" }}
-    // >
     <Paper
       key={day.slug}
       style={{
-        padding: 30,
+        padding: 20,
         height: "100%",
         alignItems: "center",
         justifyContent: "flex-start",
         display: "flex",
         flexDirection: "column",
-        margin: 25,
+        marginBottom: 25,
       }}
     >
-      <h3>{day.season}</h3>
-      <h2>{day.title}</h2>
+      <h2>
+        {index}. {day.title}
+      </h2>
       <>
-        <CardImage day={day} released={released} />
-        {/* {released ? (
-          // <Link href={`/days/${day.slug}`}>
-            <a style={{ width: "100%" }}>
-              <CardImage day={day} released={released} />
-            </a>
-          // </Link>
-        ) : (
-          <CardImage day={day} released={released} />
-        )} */}
-        <div>{documentToReactComponents(day.description.json)}</div>
-
-        {/* {!released && <>Releasing on {release.format("L")}</>} */}
+        <CardImage day={day} />
+        <div>
+          {!!day.description && documentToReactComponents(day.description.json)}
+        </div>
       </>
     </Paper>
-    // </Grid>
   );
 };
 
