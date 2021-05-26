@@ -54,7 +54,6 @@ const HOMEPAGE_QUERY = gql`
 
 const IndexPage = ({ page, days }) => {
   var today = moment();
-  console.log(page);
   return (
     <Layout>
       {page && (
