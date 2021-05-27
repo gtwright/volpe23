@@ -94,7 +94,7 @@ const IndexPage = ({ page, days }) => {
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
   // var today = moment().add(0, "d");
-  var today = moment("2021-06-01");
+  var today = moment("2021-06-02");
 
   const { data } = await apolloClient.query({
     query: HOMEPAGE_QUERY,
